@@ -8,9 +8,10 @@ import cn.cs.scu.analyse.RealTimeAnalyse
 class ProvinceTop3AdsThread extends Runnable{
   override def run(): Unit = {
     while (true){
-      //查询各省广告点击前三
+      //查询各省广告点击前三的，数组
       val provinceTop3Ads = RealTimeAnalyse.getTop3AD
       println("_____________________________________________________________________")
+      //打印上面的数组
       for (provinceTop3Ad <- provinceTop3Ads) {
         println(provinceTop3Ad.toString)
       }

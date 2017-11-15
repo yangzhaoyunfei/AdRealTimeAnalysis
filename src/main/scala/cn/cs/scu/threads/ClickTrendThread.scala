@@ -5,9 +5,10 @@ import cn.cs.scu.analyse.RealTimeAnalyse
 /**
   * Created by zhangchi on 17/3/19.
   */
-class ClickTrendThread extends Runnable{
+//获取前一小时广告各分钟点击量数组，并打印
+class ClickTrendThread extends Runnable {
   override def run(): Unit = {
-    while (true){
+    while (true) {
       val ads = RealTimeAnalyse.getClickTrend
       println("_____________________________________________________________________")
       for (ad <- ads) {

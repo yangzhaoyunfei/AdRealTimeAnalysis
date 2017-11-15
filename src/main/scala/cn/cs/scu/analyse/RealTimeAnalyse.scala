@@ -9,8 +9,8 @@ import cn.cs.scu.domain.{Ad, Blacklist, ProvinceTop3Ad}
 import cn.cs.scu.javautils.StringUtils
 import cn.cs.scu.scalautils.DateUtils
 import org.apache.spark.HashPartitioner
-import org.apache.spark.streaming.{Minutes, Seconds, StreamingContext}
 import org.apache.spark.streaming.dstream.{DStream, ReceiverInputDStream}
+import org.apache.spark.streaming.{Minutes, StreamingContext}
 import org.json.JSONObject
 
 import scala.collection.mutable.ListBuffer
@@ -74,7 +74,7 @@ object RealTimeAnalyse {
 
 
   /**
-    * 计算广告在每天每城市被点击次数
+    * 计算广告在每城市每天被点击次数
     * (date=2017-03-16|province=Henan|city=Zhengzhou|adId=5,5)
     *
     * @param streamingContext
@@ -146,7 +146,7 @@ object RealTimeAnalyse {
     * @return
     */
   def getFilteredOriginData(originData: DStream[(String, String, String, String, String)]
-                     ): DStream[(String, String, String, String, String)] = {
+                           ): DStream[(String, String, String, String, String)] = {
 
     originData.filter(t => {
       !Main.blackList.contains(t._4.trim)
@@ -155,21 +155,23 @@ object RealTimeAnalyse {
 
   /**
     * 将获取的用户点击数据过滤黑名单
+    * 获取过滤后的用户点击数据
     *
     * @param dStream
     * @return
     */
-  def getFilteredData(dStream: DStream[(String,Int)]):DStream[(String,Int)] = {
+  def getFilteredData(dStream: DStream[(String, Int)]): DStream[(String, Int)] = {
 
     dStream.filter(t => {
-      val userId = StringUtils.getFieldFromConcatString(t._1,"\\|",s"${Constants.FIELD_USERID}").trim
+      val userId = StringUtils.getFieldFromConcatString(t._1, "\\|", s"${Constants.FIELD_USERID}").trim
       !Main.blackList.contains(userId)
     })
 
   }
 
   /**
-    * 获取各省广告点击前三
+    * 获取各省广告点击前三，一个前广告前三对象数组
+    *
     * @return
     */
   def getTop3AD: Array[ProvinceTop3Ad] = {
@@ -181,14 +183,15 @@ object RealTimeAnalyse {
   }
 
   /**
-    * 获取前一小时广告各分钟点击量
+    * 获取前一小时广告各分钟点击量，一个广告对象数组
+    *
     * @return
     */
-  def getClickTrend: Array[Ad] ={
+  def getClickTrend: Array[Ad] = {
     val timeStamp = new Date().getTime
     val date = DateUtils.getDate(timeStamp)
     val timeNow = DateUtils.getTime(timeStamp)
-    val timeBefore = DateUtils.getTime(timeStamp-3600000)
+    val timeBefore = DateUtils.getTime(timeStamp - 3600000)
     val jsonObject = new JSONObject(s"{'${Constants.FIELD_START_CLICK_DAY}':'$date'," +
       s"'${Constants.FIELD_END_CLICK_DAY}':'$date'," +
       s"'${Constants.FIELD_START_CLICK_TIME}':'$timeBefore'," +
@@ -198,16 +201,17 @@ object RealTimeAnalyse {
   }
 
   /**
-    * 通过窗口函数获取前一小时广告各分钟点击量
+    * 通过窗口函数获取前一小时广告各分钟点击量 元组的数组
+    *
     * @param originData
     * @return
     */
-  def getClickTrendByWindow(originData:DStream[(String, String, String, String, String)]): DStream[(String,Int)] ={
+  def getClickTrendByWindow(originData: DStream[(String, String, String, String, String)]): DStream[(String, Int)] = {
     val filteredData = getFilteredOriginData(originData)
     filteredData.map(r => {
       val time = DateUtils.getMinute(new Date().getTime)
-      (s"time=$time|adId=${r._5}",1)
-    }).reduceByKeyAndWindow(_+_,Minutes(60))
+      (s"time=$time|adId=${r._5}", 1)
+    }).reduceByKeyAndWindow(_ + _, Minutes(60))
   }
 
 }

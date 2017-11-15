@@ -2,7 +2,6 @@ package cn.cs.scu.analyse
 
 import java.util.Date
 
-import cn.cs.scu.dao.DaoImplement
 import cn.cs.scu.dao.factory.DaoFactory
 import cn.cs.scu.domain.{Ad, Blacklist, ProvinceClick, UserClick}
 import cn.cs.scu.javautils.StringUtils
@@ -15,7 +14,7 @@ import org.apache.spark.streaming.dstream.DStream
   */
 object UpdateDateBase {
   /**
-    * 更新数据库黑名单
+    * 更新数据库中黑名单
     *
     * @param blackList
     */
@@ -34,7 +33,7 @@ object UpdateDateBase {
   }
 
   /**
-    * 更新数据库用户点击广告数
+    * 更新数据库中用户点击的广告数
     *
     * @param userClickTimes
     */
@@ -56,7 +55,7 @@ object UpdateDateBase {
   }
 
   /**
-    * 更新数据库广告被点击数
+    * 更新数据库中广告被点击数
     *
     * @param adClickedTimes
     */

@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat
 
 /**
   * Created by zhangchi on 17/3/16.
+  * //对传进来的time进行不同的格式化，并返回格式化后的字符串
   */
 class DateUtils(time: Long) {
 
@@ -20,7 +21,7 @@ class DateUtils(time: Long) {
 }
 
 object DateUtils{
-
+//将传入的time格式化成日期并返回
   def getDate(time: Long):String = {
 
     val sdf = new SimpleDateFormat("yyyy-MM-dd")
@@ -28,7 +29,7 @@ object DateUtils{
     sdf.format(time)
 
   }
-
+  //将传入的time格式化成时间并返回
   def getTime(time:Long):String = {
 
     val sdf = new SimpleDateFormat("HH:mm:ss")
@@ -36,7 +37,7 @@ object DateUtils{
     sdf.format(time)
 
   }
-
+  //将传入的time格式化成分钟并返回
   def getMinute(time:Long):String = {
     val sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm")
     sdf.format(time)

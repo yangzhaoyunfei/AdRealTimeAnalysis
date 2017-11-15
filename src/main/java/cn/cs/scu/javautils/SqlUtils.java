@@ -18,13 +18,13 @@ public class SqlUtils {
     public static String concatSQL(String totalSql, String currentSql) {
         StringBuilder sqlBuilder = new StringBuilder(currentSql);
 
-        // 加入where
+        // 加上where
         totalSql = trimSpace(totalSql);
         if (!totalSql.contains("WHERE")) {
             totalSql += " WHERE ";
-            sqlBuilder.insert(0, totalSql);
+            sqlBuilder.insert(0, totalSql);     //“totalsql where currentsql”
         } else {
-            sqlBuilder.insert(0, totalSql + " AND ");
+            sqlBuilder.insert(0, totalSql + " AND ");       //"totalsql(where) and currentsql"
         }
 
         return sqlBuilder.toString();
