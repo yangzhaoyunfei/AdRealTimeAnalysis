@@ -14,10 +14,10 @@ public interface Constants {
     String SPARK_APP_NAME_SESSION = "AdRealTimeAnalysis";
     String SPARK_STREAMING_COLLECT_TIME = "spark.streaming.collect.time";
 
-    String JDBC_DRIVER = "jdbc.driver";
-    String JDBC_URL = "jdbc.url";
-    String JDBC_USER = "jdbc.user";
-    String JDBC_PASSWORD = "jdbc.password";
+    String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+    String JDBC_URL = "localhost:3306";
+    String JDBC_USER = "root";
+    String JDBC_PASSWORD = "root";
     String JDBC_USER_PROD = "";
     String JDBC_URL_PROD = "";
     String JDBC_PASSWORD_PROD = "";
@@ -53,5 +53,8 @@ public interface Constants {
     String KAFKA_TOPICS = "tttt";
     Integer CLICK_TIMES = 100;
     Integer THREADS_NUM = 3;
+    Integer USERS_NUM = 1000;
+    Integer ADS_NUM= 10;
+
 
 }

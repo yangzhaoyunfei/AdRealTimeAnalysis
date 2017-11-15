@@ -6,6 +6,8 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 
 import java.util.*;
 
+import static cn.cs.scu.constants.Constants.*;
+
 /**
  * Created by zhangchi on 17/3/15.
  */
@@ -47,13 +49,13 @@ public class MockRealTimeData extends Thread {
     public void run() {
         while (true) {
             String province = provinces[random.nextInt(5)];
-            String city = provinceCityMap.get(province)[random.nextInt(2)];
-            //时间+省份+城市+userid+adid
+            String city = provinceCityMap.get(province)[random.nextInt(2)];//前面返回一个匿名的数组，后半通过index拿到城市
+            //"时间   省份  城市  userid  adid",用户数，广告数在constants中配置
             String log = new Date().getTime() + "\t" + province + "\t" + city + "\t"
-                    + random.nextInt(1000) + "\t" + random.nextInt(10);
+                    + random.nextInt(USERS_NUM) + "\t" + random.nextInt(ADS_NUM);
 
-            //topic:AdRealTimeLog,表示往这个topic发送数据，一个生产者可以往多个producer发送数据
-            kafkaProducer.send(new ProducerRecord<String, String>("tttt", log));
+            //topic:AdRealTimeLog,表示往这个topic发送数据，一个生产者可以往多个producer发送数据，这句话有问题
+            kafkaProducer.send(new ProducerRecord<String, String>(KAFKA_TOPICS, log));//发送的是字符串，实际中拿到log解析成行发送，一样的
 
             try {
                 Thread.sleep(100);
