@@ -1,5 +1,5 @@
 package cn.cs.scu.constants;
-
+import cn.cs.scu.conf.ConfigurationManager;
 /**
  * 配置常量接口类，便于扩展
  * <p>
@@ -14,14 +14,15 @@ public interface Constants {
     String SPARK_APP_NAME_SESSION = "AdRealTimeAnalysis";
     String SPARK_STREAMING_COLLECT_TIME = "spark.streaming.collect.time";
 
-    String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-    String JDBC_URL = "localhost:3306";
-    String JDBC_USER = "root";
-    String JDBC_PASSWORD = "root";
+    String JDBC_DRIVER = "jdbc.driver";
+    String JDBC_URL = "jdbc.url";
+    String JDBC_USER = "jdbc.user";
+    String JDBC_PASSWORD = "jdbc.password";
     String JDBC_USER_PROD = "";
     String JDBC_URL_PROD = "";
     String JDBC_PASSWORD_PROD = "";
     String JDBC_DATASOURCE_SIZE = "jdbc.datasource.size";
+    String JDBC_HOST="jdbc.host";
 
     String TABLE_AD = "ad";
     String TABLE_BLACKLIST = "blacklist";
@@ -47,14 +48,20 @@ public interface Constants {
     String FIELD_USERID = "userId";
     String FIELD_ADID = "adId";
 
-    String CHECK_POINT_DIR = "/Users/zhangchi/temp";
-    String KAFKA_ZKQUORUM = "localhost";
-    String KAFKA_GROUP = "g1";
-    String KAFKA_TOPICS = "tttt";
-    Integer CLICK_TIMES = 100;
-    Integer THREADS_NUM = 3;
-    Integer USERS_NUM = 1000;
-    Integer ADS_NUM= 10;
-
+    String CHECK_POINT_DIR = "/home/yangzhaoyunfei/temp";
+//    String KAFKA_ZKQUORUM = "wfbs";
+//    String KAFKA_GROUP = "g1";
+//    String KAFKA_TOPICS = "kafka.topics";
+//    String CLICK_TIMES = "click.times";
+//    String THREADS_NUM = "threads.num";
+//    String USERS_NUM = "users.num";
+//    String ADS_NUM = "ads.num";
+    Integer ADS_NUM = ConfigurationManager.getInteger("ads.num");
+    Integer USERS_NUM = ConfigurationManager.getInteger("users.num");
+    Integer THREADS_NUM = ConfigurationManager.getInteger("threads.num");
+    Integer CLICK_TIMES = ConfigurationManager.getInteger("click.times");
+    String KAFKA_TOPICS = ConfigurationManager.getString("kafka.topics");
+    String KAFKA_GROUP = ConfigurationManager.getString("kafka.group");
+    String KAFKA_ZKQUORUM = ConfigurationManager.getString("kafka.zkquorum");
 
 }

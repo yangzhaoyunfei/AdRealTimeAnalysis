@@ -2,6 +2,7 @@ package cn.cs.scu.analyse
 
 import java.util.Date
 
+import cn.cs.scu.conf.ConfigurationManager
 import cn.cs.scu.constants.Constants
 import cn.cs.scu.dao.factory.DaoFactory
 import cn.cs.scu.dao.implement.{AdDaoImplement, ProvinceClickDaoImplement}
@@ -81,8 +82,7 @@ object RealTimeAnalyse {
     * @param originData
     * @return
     */
-  def countAdClickedTimes(streamingContext: StreamingContext,
-                          originData: DStream[(String, String, String, String, String)]
+  def countAdClickedTimes(streamingContext: StreamingContext, originData: DStream[(String, String, String, String, String)]
                          ): DStream[(String, Int)] = {
 
     val filteredDate = getFilteredOriginData(originData)
@@ -115,7 +115,7 @@ object RealTimeAnalyse {
     */
   def getBlackList(ds: DStream[(String, Int)]): DStream[(String, Int)] = {
 
-    val blackList = ds.filter(_._2 > Constants.CLICK_TIMES)
+    val blackList = ds.filter(_._2 > ConfigurationManager.getInteger("CLICK_TIMES"))
 
     UpdateDateBase.updateBlackList(blackList)
 

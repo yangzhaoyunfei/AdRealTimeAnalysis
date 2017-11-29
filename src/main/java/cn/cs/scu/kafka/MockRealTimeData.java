@@ -1,5 +1,7 @@
 package cn.cs.scu.kafka;
 
+import cn.cs.scu.conf.ConfigurationManager;
+import cn.cs.scu.constants.Constants;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
@@ -36,7 +38,7 @@ public class MockRealTimeData extends Thread {
         //定义一个配置kafka配置对象
         Properties props = new Properties();
         //192.168.1.105:9092,192.168.1.106:9092分别是broker的地址，写2个就可以,这里有两个代理，一个的需要修改
-        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "wfbs:9092");
         //value的序列化类
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, "org.apache.kafka.common.serialization.StringSerializer");
@@ -52,10 +54,10 @@ public class MockRealTimeData extends Thread {
             String city = provinceCityMap.get(province)[random.nextInt(2)];//前面返回一个匿名的数组，后半通过index拿到城市
             //"时间   省份  城市  userid  adid",用户数，广告数在constants中配置
             String log = new Date().getTime() + "\t" + province + "\t" + city + "\t"
-                    + random.nextInt(USERS_NUM) + "\t" + random.nextInt(ADS_NUM);
+                    + random.nextInt(Constants.USERS_NUM) + "\t" + random.nextInt(Constants.ADS_NUM);
 
             //topic:AdRealTimeLog,表示往这个topic发送数据，一个生产者可以往多个producer发送数据，这句话有问题
-            kafkaProducer.send(new ProducerRecord<String, String>(KAFKA_TOPICS, log));//发送的是字符串，实际中拿到log解析成行发送，一样的
+            kafkaProducer.send(new ProducerRecord<String, String>(Constants.KAFKA_TOPICS, log));//发送的是字符串，实际中拿到log解析成行发送，一样的
 
             try {
                 Thread.sleep(100);

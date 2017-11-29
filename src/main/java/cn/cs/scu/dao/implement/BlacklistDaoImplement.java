@@ -20,7 +20,7 @@ public class BlacklistDaoImplement extends DaoImplement {
 
     /**
      * 更新黑名单表
-     *
+     *z
      * @param blacklists
      */
     @Override
@@ -66,7 +66,7 @@ public class BlacklistDaoImplement extends DaoImplement {
             paramLists.add(user_id);
             sql = SqlUtils.concatSQL(sql, currentSql);
         } catch (JSONException e) {
-//            System.out.println("key: user_id doesn't exist");
+            System.out.println("key: user_id doesn't exist");
         }
 
         try {
@@ -75,12 +75,13 @@ public class BlacklistDaoImplement extends DaoImplement {
             paramLists.add(user_name);
             sql = SqlUtils.concatSQL(sql, currentSql);
         } catch (JSONException e) {
-//            System.out.println("key: user_name doesn't exist");
+            System.out.println("key: user_name doesn't exist");
         }
 
         // jdbc单例
         JDBCHelper jdbcHelper = JDBCHelper.getInstanse();
         ArrayList<Blacklist> blacklists = new ArrayList<>();
+
 
         jdbcHelper.executeQuery(sql, paramLists.toArray(), rs -> {
             while (rs.next()) {
@@ -88,10 +89,10 @@ public class BlacklistDaoImplement extends DaoImplement {
                 blacklist.setUser_id(rs.getString(1));
                 blacklist.setUser_name(rs.getString(2));
                 blacklists.add(blacklist);
+
             }
 
         });
-
         // 返回黑名单数组对象的克隆，防止连接关闭后，数据被清空
         return blacklists.toArray(new Blacklist[0]).clone();
     }

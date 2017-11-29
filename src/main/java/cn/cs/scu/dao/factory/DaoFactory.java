@@ -29,25 +29,28 @@ public class DaoFactory {
 
     /**
      * 工厂构造省份点击数据访问类
+     *
      * @return
      */
-    public static DaoImplement getProvinceClickDao(){
+    public static DaoImplement getProvinceClickDao() {
         return new ProvinceClickDaoImplement();
     }
 
     /**
      * 工厂构造用户点击数据访问类
+     *
      * @return
      */
-    public static DaoImplement getUserClickDao(){
+    public static DaoImplement getUserClickDao() {
         return new UserClickDaoImplement();
     }
 
     /**
      * 工厂构造用户数据访问类
+     *
      * @return
      */
-    public static DaoImplement getUserDao(){
+    public static DaoImplement getUserDao() {
         return new UserDaoImplement();
     }
 

@@ -3,6 +3,7 @@ package cn.cs.scu.analyse
 
 import java.util.concurrent.{ExecutorService, Executors}
 
+import cn.cs.scu.conf.ConfigurationManager
 import cn.cs.scu.constants.Constants
 import cn.cs.scu.scalautils.{InitUnits, MyKafkaUtils}
 import cn.cs.scu.threads.{ClickTrendThread, ProvinceTop3AdsThread, UpdateBlackListThread}

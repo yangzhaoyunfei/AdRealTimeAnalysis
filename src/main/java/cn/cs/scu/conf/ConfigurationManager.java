@@ -1,5 +1,7 @@
 package cn.cs.scu.conf;
 
+import scala.tools.cmd.gen.AnyVals;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -23,6 +25,13 @@ public class ConfigurationManager {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    //测试
+    public static void main(String[] args) {
+        System.out.println(properties);
+        System.out.println(getProperty("kafka.topics"));
+
     }
 
     /**

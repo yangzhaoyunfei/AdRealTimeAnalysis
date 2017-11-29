@@ -11,9 +11,9 @@ import org.json.JSONObject;
  */
 public class testGetAds {
     public static void main (String[] args){
-        DaoImplement daoImplement = DaoFactory.getAdDao();
+        DaoImplement DaoImplement = DaoFactory.getAdDao();
         JSONObject json = new JSONObject("{\"ad_type\":\"study\"}");
-        Ad[] ads = (Ad[])daoImplement.getTable(json);
+        Ad[] ads = (Ad[])DaoImplement.getTable(json);
         for (Ad ad :ads){
             System.out.println(ad.getAdId());
         }
