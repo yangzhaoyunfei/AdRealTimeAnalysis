@@ -31,7 +31,7 @@ public class testMysql {
 
         Statement stmt = null;
         try {
-            Class.forName(driver).newInstance();
+            Class.forName(driver);
             conn = (Connection) DriverManager.getConnection(url, user, pwd);
             stmt = (Statement) conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
