@@ -5,6 +5,4 @@ package cn.cs.scu
   */
 object TestForeach {
 
-  
-
 }

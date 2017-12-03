@@ -10,11 +10,11 @@ class ClickTrendThread extends Runnable {
   override def run(): Unit = {
     while (true) {
       val ads = RealTimeAnalyse.getClickTrend
-      println("_____________________________________________________________________")
+      println("________________________________从数据库查询并计算前一小时广告各分钟点击量数组，并打印，5s一次:start_____________________________________")
       for (ad <- ads) {
         println(ad.getAdId + "\t" + ad.getClickDay + "\t" + ad.getClickTime + "\t" + ad.getClickNumber)
       }
-      println("_____________________________________________________________________")
+      println("________________________________从数据库查询并计算前一小时广告各分钟点击量数组，并打印，5s一次:end_____________________________________")
       Thread.sleep(5000)
     }
   }

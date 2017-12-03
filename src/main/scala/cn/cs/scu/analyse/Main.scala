@@ -31,9 +31,8 @@ object Main {
 
     //这一步从kafka获取输入SparkStreaming的数据
     val data = MyKafkaUtils.createStream(ssc, Constants.KAFKA_ZKQUORUM, Constants.KAFKA_GROUP, Constants.KAFKA_TOPICS)
-
-    //获取原始数据
-    val originData = RealTimeAnalyse.getOriginData(ssc, data) //原始数据应该是从SparkStreaming中输出的数据
+    //获取spark外理后输出的原始数据
+    val originData = RealTimeAnalyse.getOriginData(ssc, data)
     //获取用户点击数据
     val userClickTimes = RealTimeAnalyse.countUserClickTimes(ssc, originData)
     //过滤用户点击数据
@@ -44,7 +43,7 @@ object Main {
     val adClickedTimes = RealTimeAnalyse.countAdClickedTimes(ssc, originData)
 
 
-    //创建更新黑名单线程
+    //创建线程池，用于提交更新黑名单等线程
     val threadPool: ExecutorService = Executors.newFixedThreadPool(Constants.THREADS_NUM)
     try {
       threadPool.execute(new UpdateBlackListThread)

@@ -16,19 +16,20 @@ import static cn.cs.scu.constants.Constants.*;
 public class MockRealTimeData extends Thread {
 
     private static final Random random = new Random();
-    private static final String[] provinces = new String[]{"Sichuan", "Hubei", "Hunan", "Henan", "Hebei"};
+    private static final String[] provinces = new String[]{"四川", "湖北", "湖南", "河南", "河北","贵州"};
     private static final Map<String, String[]> provinceCityMap = new HashMap<>();
 
     //生产数据的kakfa生产者，模拟生产广告数据
     private KafkaProducer<String, String> kafkaProducer;
 
-    public MockRealTimeData() {
+    public MockRealTimeData() { //无参构造方法
 
-        provinceCityMap.put("Sichuan", new String[]{"Chengdu", "Mianyang"});
-        provinceCityMap.put("Hubei", new String[]{"Wuhan", "Jingzhou"});
-        provinceCityMap.put("Hunan", new String[]{"Changsha", "Xiangtan"});
-        provinceCityMap.put("Henan", new String[]{"Zhengzhou", "Luoyang"});
-        provinceCityMap.put("Hebei", new String[]{"Shijiazhuang", "Tangshan"});
+        provinceCityMap.put("四川", new String[]{"成都", "绵阳"});
+        provinceCityMap.put("湖北", new String[]{"武汉", "荆州"});
+        provinceCityMap.put("湖南", new String[]{"长沙", "湘潭"});
+        provinceCityMap.put("河南", new String[]{"郑州", "洛阳"});
+        provinceCityMap.put("河北", new String[]{"石家庄", "唐山"});
+        provinceCityMap.put("贵州", new String[]{"贵阳", "黔南"});
         //通过构造方法初始化参数，并构造一个生产者
         kafkaProducer = new KafkaProducer<>(getProducerConfig());
     }
@@ -50,9 +51,9 @@ public class MockRealTimeData extends Thread {
      */
     public void run() {
         while (true) {
-            String province = provinces[random.nextInt(5)];
-            String city = provinceCityMap.get(province)[random.nextInt(2)];//前面返回一个匿名的数组，后半通过index拿到城市
-            //"时间   省份  城市  userid  adid",用户数，广告数在constants中配置
+            String province = provinces[random.nextInt(6)];
+            String city = (provinceCityMap.get(province))[random.nextInt(2)];//前面返回一个匿名的数组，后半通过index拿到城市
+            //日志字符串格式为"时间   省份  城市  userid  adid",用户数，广告数在constants中配置
             String log = new Date().getTime() + "\t" + province + "\t" + city + "\t"
                     + random.nextInt(Constants.USERS_NUM) + "\t" + random.nextInt(Constants.ADS_NUM);
 

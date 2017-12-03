@@ -115,12 +115,11 @@ object RealTimeAnalyse {
     */
   def getBlackList(ds: DStream[(String, Int)]): DStream[(String, Int)] = {
 
-    val blackList = ds.filter(_._2 > ConfigurationManager.getInteger("CLICK_TIMES"))
+    val blackList = ds.filter(_._2 > Constants.CLICK_TIMES)
 
     UpdateDateBase.updateBlackList(blackList)
 
     blackList
-
   }
 
 
