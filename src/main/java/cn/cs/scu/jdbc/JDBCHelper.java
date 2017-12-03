@@ -28,8 +28,8 @@ public class JDBCHelper {
         }
     }
 
-    // JDBCHelper的单例化
-    private static JDBCHelper instanse = null;
+    // JDBCHelper的单例化,双检锁/双重校验锁（DCL，即 double-checked locking）,http://www.runoob.com/design-pattern/singleton-pattern.html
+    private volatile static JDBCHelper instanse = null;
 
     public static JDBCHelper getInstanse() {
         if (instanse == null) {
@@ -45,7 +45,6 @@ public class JDBCHelper {
 
     //数据库连接池
     private LinkedList<Connection> datasource = new LinkedList<Connection>();
-
 
     /**
      * 实现单例的过程中，创建唯一的数据库连接池
@@ -111,7 +110,7 @@ public class JDBCHelper {
         try {
             conn = getConnection();
             pstmt = conn.prepareStatement(sql);
-
+            //装入参数到pstmt
             if (params != null && params.length > 0) {
                 for (int i = 0; i < params.length; i++) {
                     pstmt.setObject(i + 1, params[i]);
@@ -123,6 +122,7 @@ public class JDBCHelper {
             e.printStackTrace();
         } finally {
             if (conn != null) {
+                //连接放回连接池
                 datasource.push(conn);
             }
         }
@@ -143,11 +143,13 @@ public class JDBCHelper {
             conn = getConnection();
             pstmt = conn.prepareStatement(sql);
             rs = pstmt.executeQuery();
+            //查询回调，处理
             callback.process(rs);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             if (conn != null) {
+                //连接放回连接池
                 datasource.push(conn);
             }
         }
@@ -171,6 +173,7 @@ public class JDBCHelper {
             e.printStackTrace();
         } finally {
             if (conn != null) {
+                //连接放回连接池
                 datasource.push(conn);
             }
         }
@@ -184,7 +187,7 @@ public class JDBCHelper {
     public interface QueryCallback {
 
         /**
-         * 处理查询结果
+         * 处理查询结果集
          *
          * @param rs
          * @throws Exception

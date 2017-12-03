@@ -7,7 +7,7 @@ import org.apache.spark.streaming.kafka.KafkaUtils
 
 /** Streaming
   * Created by zhangchi on 17/3/15.
-  * 创建
+  * 创建被动的拉取流
   */
 object MyKafkaUtils {
 

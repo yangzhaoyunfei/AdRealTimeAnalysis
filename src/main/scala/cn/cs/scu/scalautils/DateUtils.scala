@@ -21,7 +21,7 @@ class DateUtils(time: Long) {
 }
 
 object DateUtils{
-//将传入的time格式化成日期并返回
+//将传入的time(ms)格式化成“年月日”并返回
   def getDate(time: Long):String = {
 
     val sdf = new SimpleDateFormat("yyyy-MM-dd")
@@ -29,7 +29,7 @@ object DateUtils{
     sdf.format(time)
 
   }
-  //将传入的time格式化成时间并返回
+  //将传入的time(ms)格式化成“时分秒”并返回
   def getTime(time:Long):String = {
 
     val sdf = new SimpleDateFormat("HH:mm:ss")
@@ -37,7 +37,7 @@ object DateUtils{
     sdf.format(time)
 
   }
-  //将传入的time格式化成分钟并返回
+  //将传入的time格式化成“年月日时分”并返回
   def getMinute(time:Long):String = {
     val sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm")
     sdf.format(time)

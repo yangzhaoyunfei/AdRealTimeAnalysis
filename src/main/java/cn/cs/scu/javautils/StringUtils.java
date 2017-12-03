@@ -9,15 +9,15 @@ package cn.cs.scu.javautils;
 public class StringUtils {
 
     /**
-     * 从字符串中提取指定的字段
+     * 从字符串中提取指定的字段的值
      *
      * @param str       字符串
      * @param delimiter 分隔符
      * @param field     指定的字段
-     * @return
+     * @return          指定字段的值
      */
     public static String getFieldFromConcatString(String str, String delimiter, String field) {
-
+//每个字段的形式如：filed:"filedName = filedValue"
         try {
             String[] fileds = str.split(delimiter);
             for (String filed : fileds) {
@@ -44,10 +44,10 @@ public class StringUtils {
      * @param delimiter     分隔符
      * @param field         字段
      * @param newfiledValue 新值
-     * @return String
+     * @return String       更改后的字串
      */
     public static String setFieldInConcatString(String str, String delimiter, String field, String newfiledValue) {
-
+//拆散串
         String[] fields = str.split(delimiter);
         for (int i = 0; i < fields.length; i++) {
             String fieldName = fields[i].split("=")[0];
@@ -59,10 +59,11 @@ public class StringUtils {
         }
 
         StringBuffer buffer = new StringBuffer("");
-
+//拼接串
         for (int i = 0; i < fields.length; i++) {
             buffer.append(fields[i]);
             if (i < fields.length - 1) {
+                //字段之间添加分隔符"|",最后一个字段后不加
                 buffer.append("|");
             }
         }

@@ -6,6 +6,8 @@ import cn.cs.scu.domain.User;
 import cn.cs.scu.jdbc.JDBCHelper;
 import org.json.JSONObject;
 
+import java.sql.PreparedStatement;
+
 
 /**
  * 用户表数据访问对象实现类
@@ -30,9 +32,9 @@ public class UserDaoImplement extends DaoImplement {
             String sql = "INSERT INTO " + Constants.TABLE_USER + "(" + Constants.FIELD_USER_ID + "," +
                     Constants.FIELD_USER_NAME + ") VALUE(?,?)";
 
-            //sql批量插入数据
-            jdbcHelper.excuteInsert(sql, users, (sql1, preparedStatement, objects) -> {
-                for (User user : (User[]) users) {
+            //sql批量插入数据,这里回调函数的sql好像没用
+            jdbcHelper.excuteInsert(sql, users, (String sql1, PreparedStatement preparedStatement, Object[] objects) -> {
+                for (User user : (User[]) objects) {
                     preparedStatement.setObject(1, user.getUser_id());
                     preparedStatement.setObject(2, user.getUser_name());
                     preparedStatement.addBatch();

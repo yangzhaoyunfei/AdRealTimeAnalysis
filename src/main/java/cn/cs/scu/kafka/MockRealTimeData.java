@@ -53,6 +53,7 @@ public class MockRealTimeData extends Thread {
         while (true) {
             String province = provinces[random.nextInt(6)];
             String city = (provinceCityMap.get(province))[random.nextInt(2)];//前面返回一个匿名的数组，后半通过index拿到城市
+
             //日志字符串格式为"时间   省份  城市  userid  adid",用户数，广告数在constants中配置
             String log = new Date().getTime() + "\t" + province + "\t" + city + "\t"
                     + random.nextInt(Constants.USERS_NUM) + "\t" + random.nextInt(Constants.ADS_NUM);

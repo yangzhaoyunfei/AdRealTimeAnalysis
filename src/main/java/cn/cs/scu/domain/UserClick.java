@@ -3,7 +3,7 @@ package cn.cs.scu.domain;
 import java.io.Serializable;
 
 /**
- * 用户点击类
+ * 用户点击类，每个用户每天点击某告广告的次数
  * <p>
  * Created by Wanghan on 2017/3/15.
  * Copyright © Wanghan SCU. All Rights Reserved

@@ -22,9 +22,9 @@ public class SqlUtils {
         totalSql = trimSpace(totalSql);
         if (!totalSql.contains("WHERE")) {
             totalSql += " WHERE ";
-            sqlBuilder.insert(0, totalSql);     //“totalsql where currentsql”
+            sqlBuilder.insert(0, totalSql);     //没wher加where“totalsql where currentsql”
         } else {
-            sqlBuilder.insert(0, totalSql + " AND ");       //"totalsql(where) and currentsql"
+            sqlBuilder.insert(0, totalSql + " AND ");       //有where加and "totalsql(where) and currentsql"
         }
 
         return sqlBuilder.toString();

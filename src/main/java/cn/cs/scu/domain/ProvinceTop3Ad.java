@@ -51,6 +51,13 @@ public class ProvinceTop3Ad implements Cloneable {
 
     @Override
     public String toString() {
+        /*"
+        贵州
+        ad_id   click_number
+        top1    621
+        top2    122
+        top3    777
+         "*/
         String str = province + "\n" + "ad_id\tclick_number\n";
         if (top1 != null) {
             str += top1.getAdId() + "\t" + top1.getClickNumber() + "\n";

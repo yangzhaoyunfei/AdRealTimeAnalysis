@@ -3,7 +3,7 @@ package cn.cs.scu.domain;
 import java.io.Serializable;
 
 /**
- * 各个省份各个城市点击广告类
+ * 每天各个省份各个城市点击某个广告次数类，
  * <p>
  * Created by Wanghan on 2017/3/15.
  * Copyright © Wanghan SCU. All Rights Reserved
