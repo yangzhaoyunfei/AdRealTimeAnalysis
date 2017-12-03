@@ -28,9 +28,10 @@ object RealTimeAnalyse {
     * @param data
     * @return
     */
+  //spark从kafka获取数据
   def getOriginData(streamingContext: StreamingContext,
-                    data: ReceiverInputDStream[(String, String)]
-                   ): DStream[(String, String, String, String, String)] = {
+                    data: ReceiverInputDStream[(String, String)]//偏移量，log字符串
+                   ): DStream[(String, String, String, String, String)] = {//"时间   省份  城市  userid  adid"
 
     val logs = data.map(_._2).flatMap(_.split("\n")).map(row => {
       row.split("\t").toBuffer
