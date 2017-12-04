@@ -8,6 +8,7 @@ import cn.cs.scu.jdbc.JDBCHelper;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 
 
@@ -18,7 +19,20 @@ import java.util.ArrayList;
  * Copyright © Wanghan SCU. All Rights Reserved
  */
 public class AdDaoImplement extends DaoImplement {
+    //测试
+    public static void main (String[] args){
 
+        String updatetable_sql = "INSERT INTO " + Constants.TABLE_AD + "(" + Constants.FIELD_AD_ID + ","
+                + Constants.FIELD_CLICK_DAY + "," + Constants.FIELD_CLICK_TIME + "," +
+                Constants.FIELD_CLICK_NUMBER + ") VALUE(?,?,?,?) ON DUPLICATE KEY UPDATE " + Constants.FIELD_CLICK_NUMBER +
+                "=?";
+        String gettable_sql = "SELECT * FROM " + Constants.TABLE_AD;
+        System.out.println("updatetable_sql: "+updatetable_sql+"\n"+"gettable_sql: "+gettable_sql);
+        System.out.println("SELECT ad_id,click_day,CONCAT(SUBSTRING(click_time, 1, 5), \":00\") AS oneTime,SUM(click_number) FROM " +
+                Constants.TABLE_AD + " WHERE (click_day BETWEEN ? AND ?) AND (click_time BETWEEN ? AND ?)" +
+                " GROUP BY ad_id, click_day,oneTime");
+
+    }
     /**
      * 更新广告表
      *
@@ -33,9 +47,10 @@ public class AdDaoImplement extends DaoImplement {
                     + Constants.FIELD_CLICK_DAY + "," + Constants.FIELD_CLICK_TIME + "," +
                     Constants.FIELD_CLICK_NUMBER + ") VALUE(?,?,?,?) ON DUPLICATE KEY UPDATE " + Constants.FIELD_CLICK_NUMBER +
                     "=?";
+
             // sql批量插入数据
-            jdbcHelper.excuteInsert(sql, ads, (sql1, preparedStatement, objects) -> {
-                for (Ad ad : (Ad[]) ads) {
+            jdbcHelper.excuteInsert(sql, ads, (String sql1, PreparedStatement preparedStatement, Object[] objects) -> {
+                for (Ad ad : (Ad[]) objects) {
                     preparedStatement.setObject(1, ad.getAdId());
                     preparedStatement.setObject(2, ad.getClickDay());
                     preparedStatement.setObject(3, ad.getClickTime());
@@ -50,13 +65,13 @@ public class AdDaoImplement extends DaoImplement {
     }
 
     /**
-     * 获得广告表数据数据
-     *
+     * 获得广告表符合条件的数据
+     * 注意，这里广告表里并没有开始点击时间，结束点击时间等列
      * @param param
      * @return
      */
 
-    @Override
+    @Override//为什么要传参进去？？？
     public Object[] getTable(JSONObject param) {
         String sql = "SELECT * FROM " + Constants.TABLE_AD;
         Long ad_id = null;
@@ -68,24 +83,24 @@ public class AdDaoImplement extends DaoImplement {
         Long click_number = null;
 
         // 查询语句参数
-        ArrayList<Object> paramLists = new ArrayList<>();
+        ArrayList<Object> paramLists = new ArrayList<>();//存放传入的json对象的各属性
 
         try {
             ad_id = param.getLong(Constants.FIELD_AD_ID);
             String currentSql = Constants.FIELD_AD_ID + " =?";
             paramLists.add(ad_id);
-            sql = SqlUtils.concatSQL(sql, currentSql);
+            sql = SqlUtils.concatSQL(sql, currentSql);//将传入对象的字段属性添加为where子句
         } catch (JSONException e) {
-            System.out.println("key: ad_id doesn't exist");
+            System.out.println("查询广告表数据时，传入的json对象, key: ad_id doesn't exist");
         }
 
         try {
             ad_type = param.getString(Constants.FIELD_AD_TYPE);
             String currentSql = Constants.FIELD_AD_TYPE + " =?";
             paramLists.add(ad_type);
-            sql = SqlUtils.concatSQL(sql, currentSql);
+            sql = SqlUtils.concatSQL(sql, currentSql);//将传入对象的字段属性添加为where子句的and 条件
         } catch (JSONException e) {
-            System.out.println("key: ad_type doesn't exist");
+            System.out.println("查询广告表数据时，传入的json对象, key: ad_type doesn't exist");
         }
 
         try {
@@ -94,7 +109,7 @@ public class AdDaoImplement extends DaoImplement {
             paramLists.add(start_click_day);
             sql = SqlUtils.concatSQL(sql, currentSql);
         } catch (JSONException e) {
-            System.out.println("key: start_click_day doesn't exist");
+            System.out.println("查询广告表数据时，传入的json对象, key: start_click_day doesn't exist");
         }
 
         try {
@@ -103,7 +118,7 @@ public class AdDaoImplement extends DaoImplement {
             paramLists.add(end_click_day);
             sql = SqlUtils.concatSQL(sql, currentSql);
         } catch (JSONException e) {
-            System.out.println("key: end_click_day doesn't exist");
+            System.out.println("查询广告表数据时，传入的json对象, key: end_click_day doesn't exist");
         }
 
         try {
@@ -112,7 +127,7 @@ public class AdDaoImplement extends DaoImplement {
             paramLists.add(start_click_time);
             sql = SqlUtils.concatSQL(sql, currentSql);
         } catch (JSONException e) {
-            System.out.println("key: start_click_time doesn't exist");
+            System.out.println("查询广告表数据时，传入的json对象, key: start_click_time doesn't exist");
         }
 
         try {
@@ -121,7 +136,7 @@ public class AdDaoImplement extends DaoImplement {
             paramLists.add(end_click_time);
             sql = SqlUtils.concatSQL(sql, currentSql);
         } catch (JSONException e) {
-            System.out.println("key: end_click_time doesn't exist");
+            System.out.println("查询广告表数据时，传入的json对象, key: end_click_time doesn't exist");
         }
 
         try {
@@ -130,7 +145,7 @@ public class AdDaoImplement extends DaoImplement {
             paramLists.add(click_number);
             sql = SqlUtils.concatSQL(sql, currentSql);
         } catch (JSONException e) {
-            System.out.println("key: click_number doesn't exist");
+            System.out.println("查询广告表数据时，传入的json对象, key: click_number doesn't exist");
         }
 
         // jdbc单例

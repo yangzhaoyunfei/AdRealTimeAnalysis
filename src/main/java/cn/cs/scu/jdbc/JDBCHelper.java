@@ -93,14 +93,13 @@ public class JDBCHelper {
         }
         return datasource.poll();
     }
-
-
+    
     /**
      * 执行查询安全SQL语句
      *
-     * @param sql
-     * @param params
-     * @param callback
+     * @param sql 语句
+     * @param params 语句中占位符的参数数组
+     * @param callback 查询回调函数
      */
     public void executeQuery(String sql, Object[] params, QueryCallback callback) {
         Connection conn = null;
@@ -116,8 +115,8 @@ public class JDBCHelper {
                     pstmt.setObject(i + 1, params[i]);
                 }
             }
-            rs = pstmt.executeQuery();
-            callback.process(rs);
+            rs = pstmt.executeQuery();//执行查询
+            callback.process(rs);//这个查询方法并不返回的rs, 查询中产生的rs传给callback处理
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
